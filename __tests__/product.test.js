@@ -75,24 +75,13 @@ describe('Product', () => {
   });
 
   it('should not to update a product with a nonexistent ID', async () => {
-    const createProduct = {
-      code: 3,
-      description: 'PC Gamer 3',
-      buyPrice: 1800,
-      sellPrice: 2000,
-      tags: ['PC'],
-    };
-    let response = await request(app)
-      .post('/products')
-      .send(createProduct);
-
     const updateProduct = {
       description: 'X-Burger',
       buyPrice: 1,
       sellPrice: 5,
     };
     const invalidId = 'I_am_an_invalid_id';
-    response = await request(app)
+    const response = await request(app)
       .put(`/products/${invalidId}`)
       .send(updateProduct);
 
