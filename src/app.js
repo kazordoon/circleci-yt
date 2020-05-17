@@ -69,7 +69,7 @@ app.put('/products/:id', (req, res) => {
 
   products.splice(productIndex, 1, updatedProduct);
 
-  return res.json(updatedProduct);
+  return res.json({ product: updatedProduct });
 });
 
 app.delete('/products/:code', (req, res) => {

@@ -49,4 +49,53 @@ describe('Product', () => {
 
     expect(response.status).toBe(406);
   });
+
+  it('should update an existing product', async () => {
+    const createProduct = {
+      code: 2,
+      description: 'PC Gamer 2',
+      buyPrice: 1800,
+      sellPrice: 2000,
+      tags: ['PC'],
+    };
+    let response = await request(app)
+      .post('/products')
+      .send(createProduct);
+    const productId = response.body.product.id;
+
+    const updateProduct = {
+      description: 'Notebook Gamer'
+    };
+    response = await request(app)
+      .put(`/products/${productId}`)
+      .send(updateProduct);
+
+    expect(response.status).toBe(200);
+    expect(response.body.product.id).toBe(productId);
+  });
+
+  it('should not to update a product with a nonexistent ID', async () => {
+    const createProduct = {
+      code: 3,
+      description: 'PC Gamer 3',
+      buyPrice: 1800,
+      sellPrice: 2000,
+      tags: ['PC'],
+    };
+    let response = await request(app)
+      .post('/products')
+      .send(createProduct);
+
+    const updateProduct = {
+      description: 'X-Burger',
+      buyPrice: 1,
+      sellPrice: 5,
+    };
+    const invalidId = 'I_am_an_invalid_id';
+    response = await request(app)
+      .put(`/products/${invalidId}`)
+      .send(updateProduct);
+
+    expect(response.status).toBe(404);
+  });
 });
