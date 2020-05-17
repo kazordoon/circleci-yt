@@ -98,4 +98,37 @@ describe('Product', () => {
 
     expect(response.status).toBe(404);
   });
+
+  it('should delete a product', async () => {
+    const createProduct = {
+      code: 4,
+      description: 'PC Gamer 4',
+      buyPrice: 1800,
+      sellPrice: 2000,
+      tags: ['PC'],
+    };
+    let response = await request(app)
+      .post('/products')
+      .send(createProduct);
+    const productCode = response.body.product.code;
+
+    response = await request(app)
+      .delete(`/products/${productCode}`);
+
+    expect(response.status).toBe(204);
+  });
+
+  it('should not to delete a product with a nonexistent ID', async () => {
+    const updateProduct = {
+      description: 'Chair',
+      buyPrice: 7,
+      sellPrice: 15,
+    };
+    const invalidId = 'I_am_an_invalid_id';
+    const response = await request(app)
+      .delete(`/products/${invalidId}`)
+      .send(updateProduct);
+
+    expect(response.status).toBe(404);
+  });
 });
