@@ -11,6 +11,7 @@ let products = [];
 
 app.get('/products', (req, res) => {
   // Listar todos os produtos
+  return res.json({ products });
 });
 
 app.post('/products', (req, res) => {
