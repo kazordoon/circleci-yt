@@ -83,7 +83,7 @@ app.delete('/products/:code', (req, res) => {
     return res.status(404).json({ error: 'Product not found.' });
   }
 
-  products.splice(productIndex, 1);
+  products = products.filter(product => product.code !== Number(code));
 
   return res.sendStatus(204);
 });
