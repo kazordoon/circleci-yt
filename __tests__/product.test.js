@@ -55,7 +55,7 @@ describe('Product', () => {
     expect(response.body.product.id).toBe(productId);
   });
 
-  it('should not to update a product with a nonexistent ID', async () => {
+  it('should not update a product with a nonexistent ID', async () => {
     const updateProduct = {
       description: 'X-Burger',
       buyPrice: 1,
@@ -88,7 +88,7 @@ describe('Product', () => {
     expect(response.status).toBe(204);
   });
 
-  it('should not to delete a product with a nonexistent ID', async () => {
+  it('should not delete a product with a nonexistent ID', async () => {
     const updateProduct = {
       description: 'Chair',
       buyPrice: 7,
