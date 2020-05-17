@@ -42,6 +42,34 @@ app.post('/products', (req, res) => {
 
 app.put('/products/:id', (req, res) => {
   // Atualizar produto pelo "id"
+  const { code, description, buyPrice, sellPrice, tags } = req.body;
+  const { id } = req.params;
+
+  const items = { code, description, buyPrice, sellPrice, tags };
+
+  const productIndex = products.findIndex(product => product.id === id);
+
+  if (productIndex === -1) {
+    return res.status(404).json({ error: 'Product not found.' });
+  }
+
+  const product = products[productIndex];
+  let updatedProduct = {};
+
+  for (let key in items) {
+    if (items[key]) {
+      updatedProduct[key] = items[key];
+    }
+  }
+
+  updatedProduct = {
+    ...product,
+    ...updatedProduct,
+  };
+
+  products.splice(productIndex, 1, updatedProduct);
+
+  return res.json(updatedProduct);
 });
 
 app.delete('/products/:code', (req, res) => {
