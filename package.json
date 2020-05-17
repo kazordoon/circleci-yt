@@ -19,7 +19,8 @@
     "build": "sucrase ./src -d ./dist --transforms imports"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "uuidv4": "^6.0.8"
   },
   "devDependencies": {
     "@sucrase/jest-plugin": "^2.0.0",
