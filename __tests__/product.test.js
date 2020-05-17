@@ -120,4 +120,12 @@ describe('Product', () => {
 
     expect(response.status).toBe(404);
   });
+
+  it('should list all products', async () => {
+    const response = await request(app).get('/products');
+
+    expect(response.status).toBe(200);
+    expect(response.body.products).toBeDefined();
+    expect(Array.isArray(response.body.products)).toBe(true);
+  });
 });
