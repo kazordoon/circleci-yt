@@ -74,6 +74,17 @@ app.put('/products/:id', (req, res) => {
 
 app.delete('/products/:code', (req, res) => {
   // Excluir produto pelo "code"
+  const { code } = req.params;
+
+  const productIndex = products.findIndex(product => product.code === Number(code));
+
+  if (productIndex === -1) {
+    return res.status(404).json({ error: 'Product not found.' });
+  }
+
+  products.splice(productIndex, 1);
+
+  return res.sendStatus(204);
 });
 
 app.post('/products/:code/love', (req, res) => {
