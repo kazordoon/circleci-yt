@@ -23,9 +23,6 @@ app.post('/products', (req, res) => {
   }
 
   let product = products.find(product => product.code === code);
-  if (product) {
-    return res.status(409).json({ error: 'This product already exists.' });
-  }
 
   product = {
     id: uuid(),
