@@ -109,4 +109,36 @@ describe('Product', () => {
     expect(response.body.products).toBeDefined();
     expect(Array.isArray(response.body.products)).toBe(true);
   });
+
+  it('should list a product with a specifific code', async () => {
+    const createProduct = {
+      code: 510,
+      description: 'PC Gamer 4',
+      buyPrice: 1800,
+      sellPrice: 2000,
+      tags: ['PC'],
+    };
+    // 1
+    await request(app)
+      .post('/products')
+      .send(createProduct);
+    // 2
+    await request(app)
+      .post('/products')
+      .send(createProduct);
+
+    const productCode = createProduct.code;
+    const response = await request(app).get(`/products/${productCode}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.products).toBeDefined();
+    expect(response.body.products).toHaveLength(2);
+  });
+
+  it('should not list a product with an invalid code', async () => {
+    const invalidCode = 'I_am_an_invalid_code';
+    const response = await request(app).get(`/products/${invalidCode}`);
+
+    expect(response.status).toBe(204);
+  });
 });
