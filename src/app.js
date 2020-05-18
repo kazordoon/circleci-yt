@@ -91,6 +91,16 @@ app.post('/products/:code/love', (req, res) => {
 
 app.get('/products/:code', (req, res) => {
   // Listar produtos pelo "code"
+  const { code } = req.params;
+
+  const product = products.find(product => product.code === Number(code));
+  if (!product) {
+    return res.status(204).json({ error: 'Product not found' });
+  }
+
+  const productsWithTheCode = products.filter(product => product.code === Number(code));
+
+  return res.json({ products: productsWithTheCode });
 });
 
 app.set('PORT', process.env.PORT || 3333);
