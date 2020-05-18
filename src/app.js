@@ -85,6 +85,17 @@ app.delete('/products/:code', (req, res) => {
 
 app.post('/products/:code/love', (req, res) => {
   // Desenvolver incremento de "love" por "code"
+  const { code } = req.params;
+
+  const productIndex = products.findIndex(product => product.code === Number(code));
+  if (productIndex === -1) {
+    return res.status(404).json({ error: 'Product not found.' });
+  }
+
+  const product = products[productIndex];
+  product.lovers++;
+  products[productIndex] = product;
+  return res.sendStatus(200);
 });
 
 app.get('/products/:code', (req, res) => {
