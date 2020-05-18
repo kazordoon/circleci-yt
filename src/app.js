@@ -19,10 +19,10 @@ app.post('/products', (req, res) => {
   const { code, description, buyPrice, sellPrice, tags } = req.body;
 
   if (!code || !description || !buyPrice || !sellPrice || !tags) {
-    return res.status(406).json({ error: 'Incorrect request body.' });
+    return res.status(406).json({ error: "Incorrect request body." });
   }
 
-  const product = {
+  const createProduct = {
     id: uuid(),
     code,
     description,
@@ -31,9 +31,17 @@ app.post('/products', (req, res) => {
     tags,
     lovers: 0,
   };
-  products.push(product);
 
-  return res.status(201).json({ product });
+  const productWithTheCode = products.find(
+    (product) => product.code === createProduct.code
+  );
+  if (productWithTheCode) {
+    createProduct.lovers = productWithTheCode.lovers;
+  }
+
+  products.push(createProduct);
+
+  return res.status(201).json({ product: createProduct });
 });
 
 app.put('/products/:id', (req, res) => {
