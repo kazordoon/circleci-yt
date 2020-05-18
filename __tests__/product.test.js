@@ -142,7 +142,7 @@ describe('Product', () => {
     expect(response.status).toBe(204);
   });
 
-  it('should increment "love" of a specific product', async () => {
+  it('should increment "lovers" of the products with the given code', async () => {
     const createProduct = {
       code: 5,
       description: 'PC Gamer 5',

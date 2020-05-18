@@ -95,14 +95,19 @@ app.post('/products/:code/love', (req, res) => {
   // Desenvolver incremento de "love" por "code"
   const { code } = req.params;
 
-  const productIndex = products.findIndex(product => product.code === Number(code));
-  if (productIndex === -1) {
+  const productExists = (products.findIndex(product => product.code === Number(code)) !== -1);
+  if (!productExists) {
     return res.status(404).json({ error: 'Product not found.' });
   }
 
-  const product = products[productIndex];
-  product.lovers++;
-  products[productIndex] = product;
+  products = products.map(product => {
+    if (product.code === Number(code)) {
+      product.lovers++;
+    }
+
+    return product;
+  });
+
   return res.sendStatus(200);
 });
 
