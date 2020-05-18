@@ -22,9 +22,7 @@ app.post('/products', (req, res) => {
     return res.status(406).json({ error: 'Incorrect request body.' });
   }
 
-  let product = products.find(product => product.code === code);
-
-  product = {
+  const product = {
     id: uuid(),
     code,
     description,
