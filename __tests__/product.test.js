@@ -141,4 +141,35 @@ describe('Product', () => {
 
     expect(response.status).toBe(204);
   });
+
+  it('should increment "love" of a specific product', async () => {
+    const createProduct = {
+      code: 5,
+      description: 'PC Gamer 5',
+      buyPrice: 1800,
+      sellPrice: 2000,
+      tags: ['PC'],
+    };
+
+    await request(app)
+      .post('/products')
+      .send(createProduct);
+    const productCode = createProduct.code;
+
+    // Before increment love
+    const productBeforeResponse = await request(app)
+      .get(`/products/${productCode}`);
+    const [productBefore] = productBeforeResponse.body.products;
+
+    const response = await request(app)
+      .post(`/products/${productCode}/love`);
+
+    // After increment love
+    const productAfterResponse = await request(app)
+      .get(`/products/${productCode}`);
+    const [productAfter] = productAfterResponse.body.products;
+
+    expect(response.status).toBe(200);
+    expect(productAfter.lovers).toBeGreaterThan(productBefore.lovers);
+  });
 });
